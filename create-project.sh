@@ -46,13 +46,13 @@ to_package() {
 # Function to show usage
 usage() {
     cat << EOF
-Usage: $0 [OPTIONS] PROJECT_NAME [TARGET_DIR]
+Usage: $0 [OPTIONS] PROJECT_NAME TARGET_DIR
 
 Creates a new Java playground project from template.
 
 Arguments:
   PROJECT_NAME    Name of the project (e.g., 'myPlayground')
-  TARGET_DIR      Target directory (default: current directory)
+  TARGET_DIR      Target directory (required)
 
 Options:
   -g, --group-id GROUP_ID          Maven group ID (default: $DEFAULT_GROUP_ID)
@@ -81,7 +81,7 @@ EOF
 
 # Parse command line arguments
 PROJECT_NAME=""
-TARGET_DIR="."
+TARGET_DIR=""
 GROUP_ID="$DEFAULT_GROUP_ID"
 VERSION="$DEFAULT_VERSION"
 BASE_PACKAGE=""
@@ -137,6 +137,12 @@ done
 # Validate required arguments
 if [ -z "$PROJECT_NAME" ]; then
     print_error "PROJECT_NAME is required"
+    usage
+    exit 1
+fi
+
+if [ -z "$TARGET_DIR" ]; then
+    print_error "TARGET_DIR is required"
     usage
     exit 1
 fi
