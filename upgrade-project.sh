@@ -296,6 +296,61 @@ echo "  Base Package:        $BASE_PACKAGE"
 echo "  Cucumber Glue:       $CUCUMBER_GLUE_PACKAGE"
 echo
 
+# Ensure Gradle wrapper exists
+if [ ! -f "$PROJECT_DIR/gradlew" ] || [ ! -f "$PROJECT_DIR/gradle/wrapper/gradle-wrapper.jar" ]; then
+    print_info "Gradle wrapper missing, setting it up..."
+    
+    mkdir -p "$PROJECT_DIR/gradle/wrapper"
+    
+    # Create gradle-wrapper.properties
+    cat > "$PROJECT_DIR/gradle/wrapper/gradle-wrapper.properties" << 'EOF'
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-bin.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+EOF
+    
+    # Download gradle-wrapper.jar
+    GRADLE_VERSION="8.10.2"
+    WRAPPER_JAR_URL="https://raw.githubusercontent.com/gradle/gradle/v${GRADLE_VERSION}/gradle/wrapper/gradle-wrapper.jar"
+    WRAPPER_JAR="$PROJECT_DIR/gradle/wrapper/gradle-wrapper.jar"
+    
+    if command -v curl > /dev/null 2>&1; then
+        curl -sL "$WRAPPER_JAR_URL" -o "$WRAPPER_JAR"
+    elif command -v wget > /dev/null 2>&1; then
+        wget -q "$WRAPPER_JAR_URL" -O "$WRAPPER_JAR"
+    else
+        print_error "Neither curl nor wget found. Cannot download gradle-wrapper.jar"
+        exit 1
+    fi
+    
+    if [ ! -f "$WRAPPER_JAR" ] || [ ! -s "$WRAPPER_JAR" ]; then
+        print_error "Failed to download gradle-wrapper.jar"
+        exit 1
+    fi
+    
+    # Create minimal gradlew script
+    cat > "$PROJECT_DIR/gradlew" << 'EOF'
+#!/bin/sh
+APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
+CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
+if [ -n "$JAVA_HOME" ] ; then
+    JAVACMD=$JAVA_HOME/bin/java
+else
+    JAVACMD=java
+fi
+exec "$JAVACMD" -Xmx64m -Xms64m -Dorg.gradle.appname=gradlew -classpath "$CLASSPATH" org.gradle.wrapper.GradleWrapperMain "$@"
+EOF
+    
+    chmod +x "$PROJECT_DIR/gradlew"
+    
+    print_success "Gradle wrapper configured"
+    echo
+fi
+
 # Determine which files to upgrade
 if [ -n "$SPECIFIC_FILES" ]; then
     FILES_TO_UPGRADE=(${SPECIFIC_FILES//,/ })
