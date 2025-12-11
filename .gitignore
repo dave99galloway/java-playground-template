@@ -1,0 +1,24 @@
+# Build outputs
+build/
+.gradle/
+bin/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup files
+*.backup.*
+
+# Test projects (for testing the template)
+test-*
+demo-*
+sample-*
