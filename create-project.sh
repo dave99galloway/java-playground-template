@@ -43,6 +43,22 @@ to_package() {
     echo "$1" | tr '[:upper:]' '[:lower:]' | tr '-' '.' | sed 's/[^a-z0-9.]//g'
 }
 
+# Function to substitute placeholders in template files
+substitute_placeholders() {
+    local input_file="$1"
+    local output_file="$2"
+    
+    sed -e "s|{{PROJECT_NAME}}|$PROJECT_NAME|g" \
+        -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
+        -e "s|{{VERSION}}|$VERSION|g" \
+        -e "s|{{BASE_PACKAGE}}|$BASE_PACKAGE|g" \
+        -e "s|{{CUCUMBER_GLUE_PACKAGE}}|$CUCUMBER_GLUE_PACKAGE|g" \
+        -e "s|{{MAIN_CLASS}}|$MAIN_CLASS|g" \
+        -e "s|{{PROJECT_TITLE}}|$PROJECT_TITLE|g" \
+        -e "s|{{PROJECT_DESCRIPTION}}|$PROJECT_DESCRIPTION|g" \
+        "$input_file" > "$output_file"
+}
+
 # Function to show usage
 usage() {
     cat << EOF
@@ -479,26 +495,8 @@ if "%OS%"=="Windows_NT" endlocal
 :omega
 EOF
 
-print_success "Gradle wrapper configured"
-
 # Process template files
 print_info "Processing template files..."
-
-# Function to substitute placeholders
-substitute_placeholders() {
-    local input_file="$1"
-    local output_file="$2"
-    
-    sed -e "s|{{PROJECT_NAME}}|$PROJECT_NAME|g" \
-        -e "s|{{GROUP_ID}}|$GROUP_ID|g" \
-        -e "s|{{VERSION}}|$VERSION|g" \
-        -e "s|{{BASE_PACKAGE}}|$BASE_PACKAGE|g" \
-        -e "s|{{CUCUMBER_GLUE_PACKAGE}}|$CUCUMBER_GLUE_PACKAGE|g" \
-        -e "s|{{MAIN_CLASS}}|$MAIN_CLASS|g" \
-        -e "s|{{PROJECT_TITLE}}|$PROJECT_TITLE|g" \
-        -e "s|{{PROJECT_DESCRIPTION}}|$PROJECT_DESCRIPTION|g" \
-        "$input_file" > "$output_file"
-}
 
 # Process each template file
 substitute_placeholders "$TEMPLATE_DIR/build.gradle.template" "$PROJECT_DIR/build.gradle"
