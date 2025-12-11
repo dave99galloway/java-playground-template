@@ -19,44 +19,74 @@ This template provides a complete, ready-to-use structure for Java experimentati
 
 ### Create a New Project
 
+**Unix/macOS/Linux:**
+
 ```bash
-./create-project.sh myPlayground
+./create-project.sh myPlayground ~/projects/
 ```
 
-This creates a new project called `myPlayground` in the current directory.
+**Windows (PowerShell):**
+
+```powershell
+.\create-project.ps1 myPlayground C:\projects
+```
+
+**Windows (Git Bash):**
+
+```bash
+./create-project.sh myPlayground ~/projects/
+```
 
 ### With Custom Options
 
+**Unix/macOS/Linux:**
+
 ```bash
-./create-project.sh myPlayground \
+./create-project.sh myPlayground ~/projects/ \
   --group-id com.mycompany \
   --package com.mycompany.playground \
   --title "My Java Playground" \
   --description "exploring advanced Java features"
 ```
 
-### Create in Specific Directory
+**Windows (PowerShell):**
 
-```bash
-./create-project.sh myPlayground ~/projects/
+```powershell
+.\create-project.ps1 myPlayground C:\projects `
+  -GroupId com.mycompany `
+  -Package com.mycompany.playground `
+  -Title "My Java Playground" `
+  -Description "exploring advanced Java features"
 ```
 
 ## 📋 Command Line Options
 
-```
-Usage: ./create-project.sh [OPTIONS] PROJECT_NAME [TARGET_DIR]
+**Unix/macOS/Linux (Bash):**
 
-Arguments:
-  PROJECT_NAME    Name of the project (e.g., 'myPlayground')
-  TARGET_DIR      Target directory (default: current directory)
+```
+Usage: ./create-project.sh [OPTIONS] PROJECT_NAME TARGET_DIR
 
 Options:
-  -g, --group-id GROUP_ID          Maven group ID (default: com.playground)
-  -v, --version VERSION            Project version (default: 1.0-SNAPSHOT)
-  -p, --package PACKAGE            Base package name (default: auto-generated)
-  -t, --title TITLE                Project title for README
-  -d, --description DESC           Project description
-  -h, --help                       Show help message
+  -g, --group-id GROUP_ID    Maven group ID (default: com.playground)
+  -v, --version VERSION      Project version (default: 1.0-SNAPSHOT)
+  -p, --package PACKAGE      Base package name (default: auto-generated)
+  -t, --title TITLE          Project title for README
+  -d, --description DESC     Project description
+  -h, --help                 Show help message
+```
+
+**Windows (PowerShell):**
+
+```
+Usage: .\create-project.ps1 [OPTIONS] PROJECT_NAME TARGET_DIR
+
+Options:
+  -GroupId        Maven group ID (default: com.playground)
+  -Version        Project version (default: 1.0-SNAPSHOT)
+  -Package        Base package name (default: auto-generated)
+  -Title          Project title for README
+  -Description    Project description
+  -Help           Show help message
 ```
 
 ## 📁 Generated Project Structure
@@ -94,6 +124,8 @@ myPlayground/
 
 Once you create a project:
 
+**Unix/macOS/Linux:**
+
 ```bash
 cd myPlayground
 
@@ -101,7 +133,7 @@ cd myPlayground
 ./gradlew build
 
 # Run JUnit tests only
-./gradlew unitTest
+./gradlew test
 
 # Run Cucumber tests only
 ./gradlew cucumber
@@ -112,6 +144,30 @@ cd myPlayground
 # Clean build artifacts
 ./gradlew clean
 ```
+
+**Windows (PowerShell/CMD):**
+
+```powershell
+cd myPlayground
+
+# Build the project
+.\gradlew.bat build
+
+# Run JUnit tests only
+.\gradlew.bat test
+
+# Run Cucumber tests only
+.\gradlew.bat cucumber
+
+# Run all tests
+.\gradlew.bat check
+
+# Clean build artifacts
+.\gradlew.bat clean
+```
+
+**Windows (Git Bash/WSL):**
+Use the Unix commands above with `./gradlew`
 
 ## 🔧 Customizing the Template
 
@@ -136,7 +192,9 @@ cd myPlayground
 
 ## 🔄 Upgrading Existing Projects
 
-Use the `upgrade-project.sh` script to apply template changes to existing projects:
+Use the upgrade script to apply template changes to existing projects:
+
+**Unix/macOS/Linux:**
 
 ```bash
 # Upgrade a project to match current template structure
@@ -149,27 +207,62 @@ Use the `upgrade-project.sh` script to apply template changes to existing projec
 ./upgrade-project.sh --files build.gradle,settings.gradle ~/projects/myPlayground
 ```
 
+**Windows (PowerShell):**
+
+```powershell
+# Upgrade a project to match current template structure
+.\upgrade-project.ps1 C:\projects\myPlayground
+
+# Preview changes without applying
+.\upgrade-project.ps1 -DryRun C:\projects\myPlayground
+
+# Upgrade specific files only
+.\upgrade-project.ps1 -Files "build.gradle,settings.gradle" C:\projects\myPlayground
+```
+
 **Note:** Always commit your work before upgrading!
 
 ## 📦 Template Components
 
+### Scripts
+
+- **create-project.sh** - Bash script for Unix/macOS/Linux
+- **create-project.ps1** - PowerShell script for Windows
+- **upgrade-project.sh** - Bash script to upgrade existing projects
+- **upgrade-project.ps1** - PowerShell script to upgrade existing projects
+
 ### Build Configuration
+
 - **build.gradle.template** - Complete Gradle build with JUnit and Cucumber
 - **settings.gradle.template** - Project name configuration
+- **gradle-wrapper.properties.template** - Gradle wrapper configuration
 
 ### Documentation
+
 - **README.md.template** - Project documentation template
 - **.gitignore.template** - Comprehensive gitignore
 
 ### Testing Infrastructure
+
 - **CucumberTestRunner.java.template** - Cucumber test suite configuration
 
 ### IDE Integration
+
 - **vscode-settings.json.template** - VS Code Cucumber support
+
+## 💻 Platform Support
+
+This template is fully cross-platform:
+
+- **Unix/macOS/Linux** - Use `.sh` bash scripts
+- **Windows PowerShell** - Use `.ps1` PowerShell scripts
+- **Windows Git Bash/WSL** - Use `.sh` bash scripts
+- **Gradle Wrapper** - Generated for all platforms (`gradlew` + `gradlew.bat`)
 
 ## 🎓 Usage Examples
 
 ### Example 1: Design Patterns Project
+
 ```bash
 ./create-project.sh designPatterns \
   --title "Design Patterns Playground" \
@@ -178,6 +271,7 @@ Use the `upgrade-project.sh` script to apply template changes to existing projec
 ```
 
 ### Example 2: Algorithm Practice
+
 ```bash
 ./create-project.sh algorithms \
   --title "Algorithm Practice" \
@@ -186,6 +280,7 @@ Use the `upgrade-project.sh` script to apply template changes to existing projec
 ```
 
 ### Example 3: Framework Exploration
+
 ```bash
 ./create-project.sh springExperiments ~/projects/ \
   --title "Spring Framework Experiments" \
