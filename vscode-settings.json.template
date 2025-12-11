@@ -1,5 +1,7 @@
 {
     "java.configuration.updateBuildConfiguration": "interactive",
+    
+    // Cucumber (Gherkin) Full Support extension settings
     "cucumberautocomplete.steps": [
         "src/cucumber/java/**/*.java"
     ],
@@ -7,5 +9,13 @@
     "cucumberautocomplete.strictGherkinCompletion": true,
     "cucumberautocomplete.strictGherkinValidation": false,
     "cucumberautocomplete.smartSnippets": true,
-    "cucumberautocomplete.stepsInvariants": true
+    "cucumberautocomplete.stepsInvariants": true,
+    
+    // Official Cucumber extension settings
+    "cucumber.glue": [
+        "src/cucumber/java/**/*.java"
+    ],
+    "cucumber.features": [
+        "src/cucumber/resources/**/*.feature"
+    ]
 }
