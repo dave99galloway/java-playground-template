@@ -131,6 +131,7 @@ if (-not $Description) {
 # Convert package to path
 $PackagePath = $BasePackage -replace '\.', '/'
 $CucumberGluePackage = "$BasePackage.cucumber"
+$MainClass = "$BasePackage.Main"
 
 # Create project directory
 $ProjectDir = Join-Path $TargetDir $ProjectName
@@ -143,6 +144,7 @@ Write-Host "  Group ID:            $GroupId"
 Write-Host "  Version:             $Version"
 Write-Host "  Base Package:        $BasePackage"
 Write-Host "  Cucumber Glue:       $CucumberGluePackage"
+Write-Host "  Main Class:          $MainClass"
 Write-Host ""
 
 # Check if directory exists
@@ -181,6 +183,7 @@ function Expand-Template {
     $content = $content -replace '{{VERSION}}', $Version
     $content = $content -replace '{{BASE_PACKAGE}}', $BasePackage
     $content = $content -replace '{{CUCUMBER_GLUE_PACKAGE}}', $CucumberGluePackage
+    $content = $content -replace '{{MAIN_CLASS}}', $MainClass
     $content = $content -replace '{{PROJECT_TITLE}}', $ProjectTitle
     $content = $content -replace '{{PROJECT_DESCRIPTION}}', $ProjectDescription
     

@@ -163,6 +163,7 @@ fi
 # Convert package to path
 PACKAGE_PATH="${BASE_PACKAGE//./\/}"
 CUCUMBER_GLUE_PACKAGE="${BASE_PACKAGE}.cucumber"
+MAIN_CLASS="${BASE_PACKAGE}.Main"
 
 # Create project directory
 PROJECT_DIR="$TARGET_DIR/$PROJECT_NAME"
@@ -175,6 +176,7 @@ echo "  Group ID:            $GROUP_ID"
 echo "  Version:             $VERSION"
 echo "  Base Package:        $BASE_PACKAGE"
 echo "  Cucumber Glue:       $CUCUMBER_GLUE_PACKAGE"
+echo "  Main Class:          $MAIN_CLASS"
 echo
 
 # Check if directory exists
@@ -492,6 +494,7 @@ substitute_placeholders() {
         -e "s|{{VERSION}}|$VERSION|g" \
         -e "s|{{BASE_PACKAGE}}|$BASE_PACKAGE|g" \
         -e "s|{{CUCUMBER_GLUE_PACKAGE}}|$CUCUMBER_GLUE_PACKAGE|g" \
+        -e "s|{{MAIN_CLASS}}|$MAIN_CLASS|g" \
         -e "s|{{PROJECT_TITLE}}|$PROJECT_TITLE|g" \
         -e "s|{{PROJECT_DESCRIPTION}}|$PROJECT_DESCRIPTION|g" \
         "$input_file" > "$output_file"
