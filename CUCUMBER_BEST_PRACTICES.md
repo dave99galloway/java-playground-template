@@ -5,17 +5,18 @@ Based on lessons learned from real project implementations, this guide helps avo
 ## Parameter Type Matching
 
 ### The Problem
+
 Cucumber expressions use specific parameter types that must match your feature file text exactly.
 
 ### Parameter Type Reference
 
-| Type | Pattern | Usage | Example |
-|------|---------|-------|---------|
-| `{word}` | Single words, no spaces | Names, IDs, keywords | `When I add user {word}` |
-| `{int}` | Integer numbers | Counts, ages, iterations | `When I create {int} items` |
-| `{double}` | Decimal numbers | Measurements, percentages | `When I set value to {double}` |
-| `{string}` | Quoted text with spaces | Full phrases, descriptions | `When I set title to "{string}"` |
-| `{byte}`, `{short}`, `{long}`, `{float}` | Numeric variants | Type-specific numbers | `When I set timeout to {long}` |
+| Type                                     | Pattern                 | Usage                      | Example                          |
+| ---------------------------------------- | ----------------------- | -------------------------- | -------------------------------- |
+| `{word}`                                 | Single words, no spaces | Names, IDs, keywords       | `When I add user {word}`         |
+| `{int}`                                  | Integer numbers         | Counts, ages, iterations   | `When I create {int} items`      |
+| `{double}`                               | Decimal numbers         | Measurements, percentages  | `When I set value to {double}`   |
+| `{string}`                               | Quoted text with spaces | Full phrases, descriptions | `When I set title to "{string}"` |
+| `{byte}`, `{short}`, `{long}`, `{float}` | Numeric variants        | Type-specific numbers      | `When I set timeout to {long}`   |
 
 ### ✅ Correct Examples
 
@@ -58,6 +59,7 @@ public void setTitle(String title) { }
 ## Duplicate Step Definitions
 
 ### The Problem
+
 If the same step is defined in multiple step definition classes, Cucumber throws a `DuplicateStepDefinitionException` and all tests fail.
 
 ### ❌ What Causes the Error
@@ -65,7 +67,7 @@ If the same step is defined in multiple step definition classes, Cucumber throws
 ```java
 // src/cucumber/java/.../UserSteps.java
 @Then("the user should exist")
-public void assertUserExists() { 
+public void assertUserExists() {
     // ... verification code
 }
 
@@ -81,6 +83,7 @@ public void assertUserExists() {
 ### ✅ Solutions
 
 #### Option 1: Single Definition Location
+
 Place the step in ONE step definition class that makes sense:
 
 ```java
@@ -94,6 +97,7 @@ public class CommonSteps {
 ```
 
 #### Option 2: Feature-Specific Variations
+
 Make steps more specific if behavior differs:
 
 ```java
@@ -101,13 +105,15 @@ Make steps more specific if behavior differs:
 @Then("the user account should be active")
 public void assertUserActive() { }
 
-// AdminSteps.java  
+// AdminSteps.java
 @Then("the admin user should have permissions")
 public void assertAdminPermissions() { }
 ```
 
 ### Identifying Duplicates
+
 Run Gradle with verbose output:
+
 ```bash
 ./gradlew cucumber --info 2>&1 | grep -i "duplicate\|exception"
 ```
@@ -115,6 +121,7 @@ Run Gradle with verbose output:
 ## Numeric Type Handling
 
 ### The Problem
+
 Depending on the domain, you may need special handling for numeric types like `BigDecimal`, `Long`, or `Integer`.
 
 ### ❌ Wrong Approaches
@@ -142,12 +149,12 @@ assertThat(result).isEqualByComparingTo(new BigDecimal("99.99"));
 @When("I calculate with multiplier {double}")
 public void calculateValue(double multiplier) {
     BigDecimal multiplierBd = new BigDecimal(multiplier);
-    
+
     // Validation with .compareTo()
     if (multiplierBd.compareTo(BigDecimal.ONE) < 0) {
         throw new IllegalArgumentException("Multiplier must be >= 1");
     }
-    
+
     // Calculation (example)
     result = baseValue.multiply(multiplierBd)
         .setScale(2, RoundingMode.HALF_UP);
@@ -186,16 +193,19 @@ src/cucumber/resources/
 ### Guidelines
 
 1. **One step class per feature file** (when feasible)
+
    - `user.feature` → `UserSteps.java`
    - `order.feature` → `OrderSteps.java`
 
 2. **Share common steps strategically**
+
    - Authentication setup: `AuthSteps.java`
    - Common assertions: `CommonSteps.java`
    - Test fixtures: `SetupSteps.java`
    - Avoid unnecessary duplication
 
 3. **Clear naming conventions**
+
    - Class names reflect domain: `InventorySteps`, `ReportSteps`
    - Method names describe the action: `createUser()`, `submitOrder()`
 
@@ -283,6 +293,7 @@ assertThat(count).isGreaterThan(0).isLessThan(100);
 ### Review Test Reports
 
 After tests complete, open reports in browser:
+
 - **JUnit:** `build/reports/tests/test/index.html`
 - **Cucumber:** `build/reports/tests/cucumber/index.html`
 
