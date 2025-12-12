@@ -121,5 +121,11 @@ task unitTest(type: Test) {
 }
 
 tasks.named('check') {
-    dependsOn cucumber, unitTest
+    dependsOn unitTest, cucumber
 }
+
+// Tip: Run tests separately for clearer output
+// ./gradlew test          (run JUnit tests only)
+// ./gradlew cucumber      (run Cucumber BDD tests only)
+// ./gradlew test cucumber (run both separately)
+// ./gradlew check         (run all verification tasks - may appear to hang on Cucumber)
