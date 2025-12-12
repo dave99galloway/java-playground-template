@@ -186,7 +186,7 @@ upgrade_file() {
             if [ -n "$existing_runner" ]; then
                 target_file="$existing_runner"
             else
-                local package_path="${BASE_PACKAGE//./\/}"
+                local package_path="${BASE_PACKAGE//.//}"
                 target_file="$project_dir/src/cucumber/java/$package_path/cucumber/CucumberTestRunner.java"
                 mkdir -p "$(dirname "$target_file")"
             fi

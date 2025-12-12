@@ -177,7 +177,7 @@ if [ -z "$PROJECT_DESCRIPTION" ]; then
 fi
 
 # Convert package to path
-PACKAGE_PATH="${BASE_PACKAGE//./\/}"
+PACKAGE_PATH="${BASE_PACKAGE//.//}"
 CUCUMBER_GLUE_PACKAGE="${BASE_PACKAGE}.cucumber"
 MAIN_CLASS="${BASE_PACKAGE}.Main"
 
