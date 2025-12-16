@@ -59,75 +59,6 @@ This template provides a complete, ready-to-use structure for Java experimentati
   -Description "exploring advanced Java features"
 ```
 
-## ⚠️ Best Practices for Cucumber & Testing
-
-To avoid common issues when creating projects with this template, follow these guidelines:
-
-### Cucumber Parameter Type Matching
-
-Use correct Cucumber expression parameter types:
-
-- `{word}` - Single words without spaces (names, identifiers, keywords)
-- `{int}` - Integer numbers
-- `{double}` - Decimal numbers
-- `{string}` - Quoted strings with spaces
-
-**❌ Wrong:**
-
-```java
-@When("I add user {string}")          // Won't match "john_smith"
-public void addUser(String username) { }
-```
-
-**✅ Correct:**
-
-```java
-@When("I add user {word}")            // Matches "john_smith"
-public void addUser(String username) { }
-```
-
-### Avoid Duplicate Step Definitions
-
-Only define each step once across all step definition classes. Duplicate steps cause conflicts.
-
-**❌ Problem:**
-
-```java
-// In FirstFeatureSteps.java
-@Then("the result should be valid")
-public void assertValid() { }
-
-// In SecondFeatureSteps.java (DUPLICATE!)
-@Then("the result should be valid")
-public void assertValid() { }
-```
-
-**✅ Solution:**
-Place shared steps in a common class or ensure each step is only defined once globally.
-
-### Numeric Type Handling
-
-For financial or precise calculations, use `BigDecimal` and avoid direct comparisons:
-
-**❌ Wrong:**
-
-```java
-if (amount > 0) { }
-```
-
-**✅ Correct:**
-
-```java
-if (amount.compareTo(BigDecimal.ZERO) > 0) { }
-```
-
-### Step Definition Organization Best Practices
-
-- **Organize by feature**: One step class per feature file
-- **Use descriptive names**: Match class names to feature names
-- **Avoid duplication**: Don't repeat step definitions across classes
-- **Group related steps**: Keep similar steps in the same class
-
 ## 📋 Command Line Options
 
 **Unix/macOS/Linux (Bash):**
@@ -306,17 +237,7 @@ Use the upgrade script to apply template changes to existing projects:
 - **settings.gradle.template** - Project name configuration
 - **gradle-wrapper.properties.template** - Gradle wrapper configuration
 
-## 📚 Documentation
-
-For detailed guidance on best practices and common issues:
-
-- **[CUCUMBER_BEST_PRACTICES.md](CUCUMBER_BEST_PRACTICES.md)** - Common pitfalls and solutions
-
-  - Parameter type matching (`{word}`, `{int}`, `{double}`, `{string}`)
-  - Avoiding duplicate step definitions
-  - Numeric type handling (BigDecimal, etc.)
-  - Step definition organization
-  - Test execution and debugging
+### Documentation
 
 - **README.md.template** - Project documentation template
 - **.gitignore.template** - Comprehensive gitignore
